@@ -73,4 +73,3 @@ mysite07: backend
             1.  mysite07.jar: transfer
 
             2.  launch.sh: transfer + execution
-
