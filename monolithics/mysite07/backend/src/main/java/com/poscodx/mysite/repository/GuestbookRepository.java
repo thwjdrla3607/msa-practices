@@ -2,9 +2,10 @@ package com.poscodx.mysite.repository;
 
 import java.util.List;
 
-import com.poscodx.mysite.vo.GuestbookVo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.poscodx.mysite.vo.GuestbookVo;
 
 @Repository
 public class GuestbookRepository {
@@ -21,7 +22,7 @@ public class GuestbookRepository {
 	public Boolean insert(GuestbookVo vo) {
 		return 1 == sqlSession.insert("guestbook.insert", vo);
 	}
-	
+
 	public Boolean delete(GuestbookVo vo) {
 		return 1 == sqlSession.delete("guestbook.delete", vo);
 	}

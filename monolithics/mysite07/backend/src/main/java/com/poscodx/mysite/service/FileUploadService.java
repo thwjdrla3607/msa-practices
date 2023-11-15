@@ -6,54 +6,46 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Calendar;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileUploadService {
-	@Value("${mysite.upload.location}")
-	private String uploadLocation;
+	private static String SAVE_PATH = "/mysite-uploads/gallery";
+	private static String URL_BASE = "/assets/gallery";	
 
-	@Value("${mysite.static.pathBase}")
-	private String staticPathBase;
-
-
-	public String restoreImage(MultipartFile file, String serviceName) throws RuntimeException {
-		final String savePath = uploadLocation + "/" + serviceName;
-		final String urlBase = staticPathBase + "/" + serviceName;
-
+	public String restoreImage(MultipartFile file) throws RuntimeException {
 		try {
-			File uploadDirectory = new File(savePath);
+			File uploadDirectory = new File(SAVE_PATH);
 			if(!uploadDirectory.exists()) {
 				uploadDirectory.mkdirs();
 			}
-			
+
 			if(file.isEmpty()) {
 				throw new RuntimeException("file upload error: image empty");
 			}
-			
+
 			String originFilename = file.getOriginalFilename();
 			String extName = originFilename.substring(originFilename.lastIndexOf('.')+1);
 			String saveFilename = generateSaveFilename(extName);
-			
+
 			byte[] data = file.getBytes();
-			OutputStream os = new FileOutputStream(savePath + "/" + saveFilename);
+			OutputStream os = new FileOutputStream(SAVE_PATH + "/" + saveFilename);
 			os.write(data);
 			os.close();
 
-			return urlBase + "/" + saveFilename;
-			
+			return URL_BASE + "/" + saveFilename;
+
 		} catch(IOException ex) {
 			throw new RuntimeException("file upload error:" + ex);
 		}
 	}
-	
+
 	private String generateSaveFilename(String extName) {
 		String filename = "";
-		
+
 		Calendar calendar = Calendar.getInstance();
-		
+
 		filename += calendar.get(Calendar.YEAR);
 		filename += calendar.get(Calendar.MONTH);
 		filename += calendar.get(Calendar.DATE);
@@ -62,7 +54,7 @@ public class FileUploadService {
 		filename += calendar.get(Calendar.SECOND);
 		filename += calendar.get(Calendar.MILLISECOND);
 		filename += ("." + extName);
-		
+
 		return filename;
 	}	
 }

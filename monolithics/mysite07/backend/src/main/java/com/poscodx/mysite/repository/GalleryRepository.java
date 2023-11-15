@@ -2,9 +2,10 @@ package com.poscodx.mysite.repository;
 
 import java.util.List;
 
-import com.poscodx.mysite.vo.GalleryVo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
+
+import com.poscodx.mysite.vo.GalleryVo;
 
 @Repository
 public class GalleryRepository {

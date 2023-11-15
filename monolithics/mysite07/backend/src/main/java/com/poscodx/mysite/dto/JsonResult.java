@@ -4,7 +4,7 @@ public class JsonResult {
 	private String result;  /* "success" or "fail"  */
 	private Object data;    /* if success, data set */
 	private String message; /* if fail, message set */
-	
+
 	private JsonResult() {
 	}
 
@@ -25,7 +25,7 @@ public class JsonResult {
 	public static JsonResult fail(String message) {
 		return new JsonResult(message);
 	}
-	
+
 	public String getResult() {
 		return result;
 	}

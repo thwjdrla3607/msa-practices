@@ -20,7 +20,7 @@ import com.poscodx.mysite.vo.GalleryVo;
 @RestController
 @RequestMapping("/api/gallery")
 public class GalleryController {
-	
+
 	private final GalleryService galleryService;
 	private final FileUploadService FileUploadService;
 
@@ -33,15 +33,15 @@ public class GalleryController {
 	public ResponseEntity<JsonResult> index() {
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(galleryService.getGalleryImages()));
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<JsonResult> upload(MultipartFile file, GalleryVo galleyVo) {
-		galleyVo.setImageUrl(FileUploadService.restoreImage(file, "gallery"));
+		galleyVo.setUrl(FileUploadService.restoreImage(file));
 		galleryService.addGalleryImage(galleyVo);
 
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(galleyVo));
 	}
-	
+
 	@DeleteMapping(value="/{no}")
 	public ResponseEntity<JsonResult> delete(@PathVariable("no") Long no) {
 		galleryService.deleteGalleryImage(no);

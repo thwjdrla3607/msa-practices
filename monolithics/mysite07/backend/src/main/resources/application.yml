@@ -6,17 +6,13 @@ spring:
 
 ---
 # common configuration
-mysite:
-   static:
-      pathBase: /assets
-
 spring:
    mvc:
-      static-path-pattern: ${mysite.static.pathBase}/**
+      static-path-pattern: /assets/**
       throw-exception-if-no-handler-found: true
    web:
       resources:
-         static-locations: classpath:${mysite.static.pathBase}, file:${mysite.upload.location}
+         static-locations: classpath:/assets/, file:/mysite-uploads/
    thymeleaf:
       prefix: classpath:templates/
       check-template-location: true
@@ -31,13 +27,9 @@ spring:
 mybatis:
    config-location: classpath:mybatis/configuration.xml
 
-         
+
 ---
 # development configuration
-mysite:
-   upload:
-      location: /mysite-uploads
-
 spring:
    config:
       activate:
@@ -45,9 +37,12 @@ spring:
    devtools:
       livereload:
          enabled: true
+   web:
+      resources:
+         static-locations: classpath:/assets/, file:/mysite-uploads/
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
-      url: jdbc:mariadb://192.168.0.185:3307/webdb?characterEncoding=utf8
+      url: jdbc:mysql://192.168.0.185:3307/webdb?characterEncoding=utf8
       username: webdb
       password: webdb   
 server:
@@ -65,22 +60,23 @@ logging:
 
 
 ---
+#
 # production profile configuration
-mysite:
-   upload:
-      location: /mysite-uploads
-
+#
 spring:
    config:
       activate:
          on-profile: production
+   web:
+      resources:
+         static-locations: classpath:/assets/, file:/mysite-uploads/         
    datasource:
       driver-class-name: org.mariadb.jdbc.Driver
       url: jdbc:mariadb://192.168.0.185:3307/webdb?characterEncoding=utf8
       username: webdb
       password: webdb   
 server:
-   port: 8082
+   port: 8088
    servlet:
       context-path: /
       encoding:
@@ -98,7 +94,7 @@ logging:
       name: logs/${spring.application.name}.log
    level:
       root: WARN
-      com:
-         poscodx:
+      me:
+         kickscar:
             mysite:
                exception: ERROR

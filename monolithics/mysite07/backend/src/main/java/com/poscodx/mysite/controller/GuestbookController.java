@@ -26,19 +26,19 @@ public class GuestbookController {
 
 	@GetMapping("")
 	public ResponseEntity<JsonResult> list(@RequestParam(value="no", required=true, defaultValue="0") Long startNo) {
-		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(guestbookService.getContentsList(startNo)));
+		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(guestbookService.getMessageList(startNo)));
 	}
 
 	@PostMapping("")
 	public ResponseEntity<JsonResult> add(@RequestBody GuestbookVo vo) {
-		guestbookService.addContents(vo);
+		guestbookService.addMessage(vo);
 		vo.setPassword("");		
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(vo));
 	}
 
 	@DeleteMapping("/{no}")
 	public ResponseEntity<JsonResult> delete(@PathVariable("no") Long no, @RequestParam(value="password", required=true, defaultValue="") String password) {
-		Boolean result = guestbookService.deleteContents(no, password);
+		Boolean result = guestbookService.deleteMessage(no, password);		
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(result ? no : null));
 	}
 }
